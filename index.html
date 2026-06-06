@@ -108,7 +108,7 @@ input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px
       <div class="topbar"><div><h1>Export</h1><p>Copy summary for email or download your records.</p></div></div>
       <div class="grid cols2">
         <div class="card"><h3>Email Draft</h3><textarea id="emailDraft" style="min-height:300px"></textarea><div class="toolbar"><button class="btn" onclick="copyEmail()">Copy Email Draft</button><button class="btn secondary" onclick="makeEmailDraft()">Refresh Draft</button></div></div>
-        <div class="card"><h3>Firestore Sync</h3><p class="muted">Paste your Firebase web app config once. Records will sync across devices using Firestore.</p><label class="label">Firebase config JSON</label><textarea id="firebaseConfigInput" style="min-height:170px" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}'></textarea><div class="toolbar"><button class="btn" onclick="saveFirebaseConfig()">Connect Firestore</button><button class="btn secondary" onclick="syncNow()">Sync Now</button><button class="btn danger" onclick="clearFirebaseConfig()">Remove Config</button></div></div>
+        <div class="card"><h3>Firestore Sync</h3><p class="muted">Firebase is already configured for meetinghub-ce912. Records will sync across devices using Firestore after Anonymous Authentication and Firestore Database are enabled.</p><label class="label">Firebase config JSON</label><textarea id="firebaseConfigInput" style="min-height:170px" placeholder='Firebase config is built in.'></textarea><div class="toolbar"><button class="btn" onclick="saveFirebaseConfig()">Reconnect Firestore</button><button class="btn secondary" onclick="syncNow()">Sync Now</button><button class="btn danger" onclick="clearFirebaseConfig()">Reset to Built-in Config</button></div></div>
         <div class="card"><h3>Data Export</h3><p class="muted">Download all saved records from this browser as JSON or CSV.</p><div class="toolbar"><button class="btn" onclick="downloadJSON()">Download JSON</button><button class="btn secondary" onclick="downloadCSV()">Download CSV</button><button class="btn danger" onclick="clearAll()">Clear All Records</button></div></div>
       </div>
     </section>
@@ -125,18 +125,36 @@ import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/1
 const KEY='meeting_ai_hub_records_v2';
 const FIREBASE_CONFIG_KEY='meeting_ai_hub_firebase_config_v1';
 const COLLECTION='meetingRecords';
+
+// Firebase config is now built directly into the app.
+// This means you do NOT need to paste config inside the Export page.
+const DEFAULT_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDJiadH58mq7mrkk7wP6nEwPTg_uW2kJG8",
+  authDomain: "meetinghub-ce912.firebaseapp.com",
+  projectId: "meetinghub-ce912",
+  storageBucket: "meetinghub-ce912.firebasestorage.app",
+  messagingSenderId: "548498455637",
+  appId: "1:548498455637:web:58d6ff7cdbc542010b28dc"
+};
 let records=JSON.parse(localStorage.getItem(KEY)||'[]');
 let currentSummary=null;
 let app=null, db=null, auth=null, unsubscribe=null, firebaseReady=false, remoteLoaded=false, suppressRemoteWrite=false;
 document.getElementById('date').valueAsDate=new Date();
 
 function setSyncStatus(msg){document.getElementById('syncStatus').textContent='Sync: '+msg;}
-function getSavedConfig(){try{return JSON.parse(localStorage.getItem(FIREBASE_CONFIG_KEY)||'null')}catch(e){return null}}
+function getSavedConfig(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(FIREBASE_CONFIG_KEY)||'null');
+    return saved || DEFAULT_FIREBASE_CONFIG;
+  }catch(e){
+    return DEFAULT_FIREBASE_CONFIG;
+  }
+}
 function isUsableConfig(cfg){return cfg && cfg.apiKey && cfg.projectId && cfg.appId;}
 async function initFirebase(){
  const cfg=getSavedConfig();
  const input=document.getElementById('firebaseConfigInput'); if(input&&cfg)input.value=JSON.stringify(cfg,null,2);
- if(!isUsableConfig(cfg)){setSyncStatus('local only'); return;}
+ if(!isUsableConfig(cfg)){setSyncStatus('local only - Firebase config missing'); return;}
  try{
    app=initializeApp(cfg); db=getFirestore(app); auth=getAuth(app); await signInAnonymously(auth); firebaseReady=true; setSyncStatus('connecting...');
    try{await enableIndexedDbPersistence(db);}catch(e){}
@@ -161,7 +179,7 @@ function saveFirebaseConfig(){
  try{const cfg=JSON.parse(raw); if(!isUsableConfig(cfg)) throw new Error('Missing apiKey/projectId/appId'); localStorage.setItem(FIREBASE_CONFIG_KEY,JSON.stringify(cfg)); alert('Firebase config saved. Firestore sync will connect now.'); location.reload();}
  catch(e){alert('Invalid Firebase config JSON. Paste the web app config object from Firebase Project settings.');}
 }
-function clearFirebaseConfig(){localStorage.removeItem(FIREBASE_CONFIG_KEY); alert('Firebase config removed. App will use localStorage only.'); location.reload();}
+function clearFirebaseConfig(){localStorage.removeItem(FIREBASE_CONFIG_KEY); alert('Custom Firebase config removed. App will use the built-in meetinghub-ce912 config.'); location.reload();}
 
 function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderAll();}
 function openNew(){go('newMeeting',document.querySelectorAll('.nav button')[1]);}
