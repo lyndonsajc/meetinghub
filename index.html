@@ -3,232 +3,50 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI Meeting Summary Dashboard</title>
+<title>MeetingHub Pro</title>
 <style>
-:root{
-  --bg:#f4f6fb;--panel:#ffffff;--ink:#172033;--muted:#657085;--line:#dfe5f1;
-  --primary:#2563eb;--primary2:#1d4ed8;--soft:#eaf1ff;--green:#10b981;--amber:#f59e0b;--red:#ef4444;
-  --shadow:0 14px 34px rgba(15,23,42,.08);--radius:18px;
-}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
-.sidebar{background:#0f172a;color:white;padding:22px 16px;position:sticky;top:0;height:100vh}
-.logo{font-size:21px;font-weight:800;margin:0 0 6px}.tag{font-size:12px;color:#cbd5e1;margin-bottom:24px;line-height:1.4}
-.nav button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#cbd5e1;padding:12px 13px;border-radius:13px;cursor:pointer;font-size:15px;text-align:left;margin-bottom:6px}
-.nav button.active,.nav button:hover{background:#1e293b;color:#fff}.main{padding:26px;max-width:1220px;width:100%;margin:0 auto}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.topbar h1{margin:0;font-size:28px}.topbar p{margin:5px 0 0;color:var(--muted)}
-.btn{border:0;border-radius:12px;padding:10px 14px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}.btn:hover{background:var(--primary2)}.btn.secondary{background:#e2e8f0;color:#172033}.btn.danger{background:var(--red)}.btn.green{background:var(--green)}
-.page{display:none}.page.active{display:block}.grid{display:grid;gap:18px}.grid.cols3{grid-template-columns:repeat(3,1fr)}.grid.cols2{grid-template-columns:repeat(2,1fr)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}.stat{font-size:32px;font-weight:900}.muted{color:var(--muted);font-size:14px}.label{font-size:13px;color:var(--muted);font-weight:700;margin:10px 0 7px;display:block}
-input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:15px;background:#fff;color:var(--ink)}textarea{min-height:220px;resize:vertical;line-height:1.5}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.summaryBox{white-space:pre-wrap;line-height:1.55;background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:15px;min-height:180px}.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 10px;background:var(--soft);color:#1d4ed8;font-size:12px;font-weight:800;margin:3px}
-.record{border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:10px;background:#fff;cursor:pointer}.record:hover{border-color:#93c5fd;background:#f8fbff}.recordTitle{display:flex;justify-content:space-between;gap:10px;font-weight:800}.small{font-size:12px;color:var(--muted)}
-.task{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}.task.done span{text-decoration:line-through;color:var(--muted)}
-.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal.show{display:flex}.modalBody{background:#fff;border-radius:20px;max-width:850px;width:100%;max-height:86vh;overflow:auto;padding:22px;box-shadow:var(--shadow)}
-.kv{display:grid;grid-template-columns:150px 1fr;gap:8px;margin:8px 0}.chipline{margin:8px 0}.empty{text-align:center;color:var(--muted);padding:34px;border:1px dashed var(--line);border-radius:16px;background:#fafafa}.bar{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden}.bar>div{height:100%;background:var(--primary);width:0%}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative}.nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.main{padding:16px}.grid.cols3,.grid.cols2,.row{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}}
+:root{--bg:#f5f7fb;--panel:#fff;--ink:#102033;--muted:#64748b;--line:#d9e2ef;--pri:#2563eb;--pri2:#1d4ed8;--green:#059669;--red:#dc2626;--amber:#d97706;--soft:#eef5ff;--dark:#0f172a;--shadow:0 16px 36px rgba(15,23,42,.08);--r:18px}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)}.app{display:grid;grid-template-columns:270px 1fr;min-height:100vh}.side{background:var(--dark);color:white;padding:22px 16px;position:sticky;top:0;height:100vh}.logo{font-size:22px;font-weight:900}.tag{font-size:12px;color:#cbd5e1;line-height:1.45;margin:8px 0 18px}.sync{background:#1e293b;border-radius:13px;padding:10px;margin-bottom:14px;font-size:12px;color:#dbeafe}.nav button{width:100%;border:0;background:transparent;color:#cbd5e1;display:flex;gap:10px;align-items:center;padding:12px;border-radius:13px;cursor:pointer;font-size:15px;margin:4px 0}.nav button:hover,.nav button.active{background:#1e293b;color:white}.main{padding:28px;max-width:1280px;width:100%;margin:auto}.page{display:none}.page.active{display:block}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.top h1{margin:0;font-size:30px}.top p{margin:5px 0 0;color:var(--muted)}.grid{display:grid;gap:18px}.cols2{grid-template-columns:1fr 1fr}.cols3{grid-template-columns:repeat(3,1fr)}.cols4{grid-template-columns:repeat(4,1fr)}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}.stat{font-size:32px;font-weight:900;margin-top:8px}.muted{color:var(--muted);font-size:14px}.label{display:block;font-weight:800;color:var(--muted);font-size:13px;margin:11px 0 7px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:white;font-size:15px;color:var(--ink)}textarea{min-height:170px;resize:vertical;line-height:1.5}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;background:var(--pri);color:white}.btn:hover{background:var(--pri2)}.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.gray{background:#e2e8f0;color:#172033}.box{white-space:pre-wrap;line-height:1.55;background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:15px;min-height:150px}.record{border:1px solid var(--line);border-radius:15px;padding:14px;background:white;margin-bottom:10px;cursor:pointer}.record:hover{background:#f8fbff;border-color:#93c5fd}.recTop{display:flex;justify-content:space-between;gap:10px;font-weight:900}.pill{display:inline-block;background:var(--soft);color:#1d4ed8;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;margin:4px 4px 0 0}.task{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}.task.done span{text-decoration:line-through;color:var(--muted)}.empty{text-align:center;padding:30px;color:var(--muted);border:1px dashed var(--line);border-radius:15px;background:#fafafa}.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.show{display:flex}.modalBody{background:white;border-radius:20px;max-width:920px;width:100%;max-height:86vh;overflow:auto;padding:22px;box-shadow:var(--shadow)}.kv{display:grid;grid-template-columns:150px 1fr;gap:8px;margin:8px 0}.bar{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden}.bar div{height:100%;background:var(--pri)}@media(max-width:900px){.app{grid-template-columns:1fr}.side{height:auto;position:relative}.nav{display:grid;grid-template-columns:repeat(2,1fr)}.main{padding:16px}.cols2,.cols3,.cols4,.row{grid-template-columns:1fr}.top{flex-direction:column}}
 </style>
 </head>
 <body>
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo">Meeting AI Hub</div>
-    <div class="tag">Record, summarise, retrieve, export, and track follow-up work.</div>
-    <div id="syncStatus" class="tag" style="background:#1e293b;border-radius:12px;padding:10px;margin-bottom:14px">Sync: local only</div>
-    <div class="nav">
-      <button class="active" onclick="go('dashboard',this)">📊 Dashboard</button>
-      <button onclick="go('newMeeting',this)">➕ New Meeting</button>
-      <button onclick="go('aiSummary',this)">🤖 AI Summary</button>
-      <button onclick="go('records',this)">🗂 Records</button>
-      <button onclick="go('tasks',this)">✅ Action Items</button>
-      <button onclick="go('exportPage',this)">📤 Export</button>
-    </div>
-  </aside>
-
-  <main class="main">
-    <section id="dashboard" class="page active">
-      <div class="topbar"><div><h1>Dashboard</h1><p>Overview of meetings, consultations, tasks and sentiment.</p></div><button class="btn" onclick="openNew()">New Record</button></div>
-      <div class="grid cols3">
-        <div class="card"><div class="muted">Total records</div><div id="statTotal" class="stat">0</div></div>
-        <div class="card"><div class="muted">Open action items</div><div id="statOpen" class="stat">0</div></div>
-        <div class="card"><div class="muted">Average sentiment</div><div id="statSent" class="stat">Neutral</div></div>
-      </div>
-      <div class="grid cols2" style="margin-top:18px">
-        <div class="card"><h3>Categories</h3><div id="categoryStats"></div></div>
-        <div class="card"><h3>Recent records</h3><div id="recentRecords"></div></div>
-      </div>
-    </section>
-
-    <section id="newMeeting" class="page">
-      <div class="topbar"><div><h1>New Meeting / Consultation</h1><p>Add notes manually, upload a text file, then generate an AI-style summary.</p></div></div>
-      <div class="card">
-        <div class="row">
-          <div><label class="label">Title</label><input id="title" placeholder="e.g. PW consultation with Group 3" /></div>
-          <div><label class="label">Category</label><select id="category"><option>Meeting</option><option>Consultation</option><option>Parent Contact</option><option>Student Follow-up</option><option>CCA / Hockey</option><option>Personal Task</option><option>Others</option></select></div>
-        </div>
-        <div class="row">
-          <div><label class="label">Date</label><input id="date" type="date" /></div>
-          <div><label class="label">People involved</label><input id="people" placeholder="Names separated by commas" /></div>
-        </div>
-        <label class="label">Upload notes document (.txt)</label><input id="fileInput" type="file" accept=".txt,.md,.csv" />
-        <label class="label">Meeting notes / transcript</label><textarea id="notes" placeholder="Paste meeting notes, consultation points, transcript, or rough bullet points here..."></textarea>
-        <div class="toolbar">
-          <button class="btn" onclick="generateSummary()">Generate AI Summary</button>
-          <button class="btn green" onclick="saveRecord()">Save Record</button>
-          <button class="btn secondary" onclick="clearForm()">Clear</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="aiSummary" class="page">
-      <div class="topbar"><div><h1>AI Summary</h1><p>Generated summary, key decisions, action items, follow-up questions and sentiment.</p></div></div>
-      <div class="grid cols2">
-        <div class="card"><h3>Concise Summary</h3><div id="summaryOut" class="summaryBox">No summary yet.</div></div>
-        <div class="card"><h3>Analysis</h3><div id="analysisOut" class="summaryBox">Generate a summary from the New Meeting page.</div></div>
-      </div>
-    </section>
-
-    <section id="records" class="page">
-      <div class="topbar"><div><h1>Records</h1><p>Search, filter and click any record to retrieve full details.</p></div></div>
-      <div class="card">
-        <div class="row">
-          <input id="search" placeholder="Search title, people, notes, action items..." oninput="renderRecords()" />
-          <select id="filterCat" onchange="renderRecords()"><option value="All">All categories</option><option>Meeting</option><option>Consultation</option><option>Parent Contact</option><option>Student Follow-up</option><option>CCA / Hockey</option><option>Personal Task</option><option>Others</option></select>
-        </div>
-        <div style="margin-top:14px" id="recordList"></div>
-      </div>
-    </section>
-
-    <section id="tasks" class="page">
-      <div class="topbar"><div><h1>Action Items</h1><p>All extracted tasks from saved records.</p></div></div>
-      <div class="card"><div id="taskList"></div></div>
-    </section>
-
-    <section id="exportPage" class="page">
-      <div class="topbar"><div><h1>Export</h1><p>Copy summary for email or download your records.</p></div></div>
-      <div class="grid cols2">
-        <div class="card"><h3>Email Draft</h3><textarea id="emailDraft" style="min-height:300px"></textarea><div class="toolbar"><button class="btn" onclick="copyEmail()">Copy Email Draft</button><button class="btn secondary" onclick="makeEmailDraft()">Refresh Draft</button></div></div>
-        <div class="card"><h3>Firestore Sync</h3><p class="muted">Firebase is already configured for meetinghub-ce912. Records will sync across devices using Firestore after Anonymous Authentication and Firestore Database are enabled.</p><label class="label">Firebase config JSON</label><textarea id="firebaseConfigInput" style="min-height:170px" placeholder='Firebase config is built in.'></textarea><div class="toolbar"><button class="btn" onclick="saveFirebaseConfig()">Reconnect Firestore</button><button class="btn secondary" onclick="syncNow()">Sync Now</button><button class="btn danger" onclick="clearFirebaseConfig()">Reset to Built-in Config</button></div></div>
-        <div class="card"><h3>Data Export</h3><p class="muted">Download all saved records from this browser as JSON or CSV.</p><div class="toolbar"><button class="btn" onclick="downloadJSON()">Download JSON</button><button class="btn secondary" onclick="downloadCSV()">Download CSV</button><button class="btn danger" onclick="clearAll()">Clear All Records</button></div></div>
-      </div>
-    </section>
-  </main>
-</div>
-
-<div id="modal" class="modal" onclick="if(event.target.id==='modal')closeModal()"><div class="modalBody"><div style="display:flex;justify-content:space-between;gap:10px"><h2 id="modalTitle"></h2><button class="btn secondary" onclick="closeModal()">Close</button></div><div id="modalContent"></div></div></div>
-
+<div class="app"><aside class="side"><div class="logo">MeetingHub Pro</div><div class="tag">Meetings + consultations + tasks + student history, synced to Firestore.</div><div id="sync" class="sync">Sync: connecting...</div><div class="nav">
+<button class="active" onclick="go('dashboard',this)">📊 Dashboard</button><button onclick="go('newPage',this)">➕ New Record</button><button onclick="go('summaryPage',this)">🤖 AI Summary</button><button onclick="go('recordsPage',this)">🗂 Records</button><button onclick="go('studentsPage',this)">👥 Students</button><button onclick="go('tasksPage',this)">✅ Tasks</button><button onclick="go('exportPage',this)">📤 Export</button>
+</div></aside><main class="main">
+<section id="dashboard" class="page active"><div class="top"><div><h1>Dashboard</h1><p>Live overview across meetings, consultations and tasks.</p></div><button class="btn" onclick="openNew()">New Record</button></div><div class="grid cols4"><div class="card"><div class="muted">Total Records</div><div id="statRecords" class="stat">0</div></div><div class="card"><div class="muted">Consultations</div><div id="statConsults" class="stat">0</div></div><div class="card"><div class="muted">Open Tasks</div><div id="statTasks" class="stat">0</div></div><div class="card"><div class="muted">Main Sentiment</div><div id="statSent" class="stat">Neutral</div></div></div><div class="grid cols2" style="margin-top:18px"><div class="card"><h3>Categories</h3><div id="catStats"></div></div><div class="card"><h3>Recent Records</h3><div id="recent"></div></div></div></section>
+<section id="newPage" class="page"><div class="top"><div><h1>New Meeting / Consultation</h1><p>Upload notes, add transcript, then generate a structured summary.</p></div></div><div class="card"><div class="row"><div><label class="label">Title</label><input id="title" placeholder="e.g. PW Consultation - Group 3"></div><div><label class="label">Type</label><select id="type"><option>Consultation</option><option>Meeting</option><option>Task Log</option><option>Parent Contact</option></select></div></div><div class="row"><div><label class="label">Category</label><select id="category"><option>PW Consultation</option><option>Economics Consultation</option><option>Student Welfare</option><option>Staff Meeting</option><option>Department Meeting</option><option>Hockey Meeting</option><option>Parent Contact</option><option>Personal Task</option><option>Others</option></select></div><div><label class="label">Date</label><input id="date" type="date"></div></div><div class="row"><div><label class="label">People involved</label><input id="people" placeholder="Names separated by commas"></div><div><label class="label">Student / Class / PW Group</label><input id="student" placeholder="e.g. Zikai, 26S21, Group 4"></div></div><div class="row"><div><label class="label">Upload notes document</label><input id="fileInput" type="file" accept=".txt,.md,.csv"></div><div><label class="label">Upload audio recording</label><input id="audioInput" type="file" accept="audio/*"><div id="audioMsg" class="muted" style="margin-top:6px">Audio file name will be saved. Paste transcript/notes below for now.</div></div></div><label class="label">Meeting notes / transcript</label><textarea id="notes" placeholder="Paste rough notes, meeting minutes, consultation points, or transcript here..."></textarea><div class="toolbar"><button class="btn" onclick="generateSummary()">Generate AI Summary</button><button class="btn gray" onclick="clearForm()">Clear</button></div></div></section>
+<section id="summaryPage" class="page"><div class="top"><div><h1>AI Summary</h1><p>Review and edit before saving into Records.</p></div></div><div class="grid cols2"><div class="card"><h3>Summary</h3><textarea id="summaryText"></textarea><h3>Key Discussion Points</h3><textarea id="pointsText"></textarea><h3>Decisions Made</h3><textarea id="decisionsText"></textarea></div><div class="card"><h3>Action Items</h3><textarea id="actionsText"></textarea><h3>Risks / Concerns</h3><textarea id="risksText"></textarea><h3>Follow-up Required</h3><textarea id="followText"></textarea><label class="label">Sentiment</label><select id="sentiment"><option>Positive</option><option selected>Neutral</option><option>Concerned</option></select></div></div><div class="card" style="margin-top:18px"><div class="toolbar"><button class="btn green" onclick="saveRecordFromSummary()">Save Summary to Records</button><button class="btn" onclick="go('recordsPage',document.querySelectorAll('.nav button')[3])">View Records</button><button class="btn gray" onclick="go('newPage',document.querySelectorAll('.nav button')[1])">Edit Notes</button><button class="btn gray" onclick="makeEmailDraft();go('exportPage',document.querySelectorAll('.nav button')[6])">Export Email</button></div></div></section>
+<section id="recordsPage" class="page"><div class="top"><div><h1>Records</h1><p>Search and click to retrieve details.</p></div></div><div class="card"><div class="row"><input id="search" placeholder="Search student, class, title, notes, action item..." oninput="renderRecords()"><select id="filter" onchange="renderRecords()"><option value="All">All categories</option><option>PW Consultation</option><option>Economics Consultation</option><option>Student Welfare</option><option>Staff Meeting</option><option>Department Meeting</option><option>Hockey Meeting</option><option>Parent Contact</option><option>Personal Task</option><option>Others</option></select></div><div id="recordList" style="margin-top:14px"></div></div></section>
+<section id="studentsPage" class="page"><div class="top"><div><h1>Student Consultation History</h1><p>Search by student, class or PW group.</p></div></div><div class="card"><input id="studentSearch" placeholder="Search student/class/PW group..." oninput="renderStudents()"><div id="studentList" style="margin-top:14px"></div></div></section>
+<section id="tasksPage" class="page"><div class="top"><div><h1>Tasks</h1><p>Track follow-ups across all workflows.</p></div></div><div class="card"><div id="taskList"></div></div></section>
+<section id="exportPage" class="page"><div class="top"><div><h1>Export</h1><p>Copy email summaries or download data.</p></div></div><div class="grid cols2"><div class="card"><h3>Email Draft</h3><textarea id="emailDraft" style="min-height:320px"></textarea><div class="toolbar"><button class="btn" onclick="copyEmail()">Copy Email</button><button class="btn gray" onclick="makeEmailDraft()">Refresh Draft</button></div></div><div class="card"><h3>Data Export</h3><p class="muted">Download all Firestore/local records.</p><div class="toolbar"><button class="btn" onclick="downloadJSON()">Download JSON</button><button class="btn gray" onclick="downloadCSV()">Download CSV</button><button class="btn red" onclick="clearAll()">Clear All</button></div></div></div></section>
+</main></div><div id="modal" class="modal" onclick="if(event.target.id==='modal')closeModal()"><div class="modalBody"><div style="display:flex;justify-content:space-between;gap:10px"><h2 id="modalTitle"></h2><button class="btn gray" onclick="closeModal()">Close</button></div><div id="modalContent"></div></div></div>
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-import { getFirestore, collection, doc, deleteDoc, onSnapshot, writeBatch, serverTimestamp, enableIndexedDbPersistence } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+import { getFirestore, collection, doc, deleteDoc, onSnapshot, writeBatch, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-
-const KEY='meeting_ai_hub_records_v2';
-const FIREBASE_CONFIG_KEY='meeting_ai_hub_firebase_config_v1';
-const COLLECTION='meetingRecords';
-
-// Firebase config is now built directly into the app.
-// This means you do NOT need to paste config inside the Export page.
-const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDJiadH58mq7mrkk7wP6nEwPTg_uW2kJG8",
-  authDomain: "meetinghub-ce912.firebaseapp.com",
-  projectId: "meetinghub-ce912",
-  storageBucket: "meetinghub-ce912.firebasestorage.app",
-  messagingSenderId: "548498455637",
-  appId: "1:548498455637:web:58d6ff7cdbc542010b28dc"
-};
-let records=JSON.parse(localStorage.getItem(KEY)||'[]');
-let currentSummary=null;
-let app=null, db=null, auth=null, unsubscribe=null, firebaseReady=false, remoteLoaded=false, suppressRemoteWrite=false;
-document.getElementById('date').valueAsDate=new Date();
-
-function setSyncStatus(msg){document.getElementById('syncStatus').textContent='Sync: '+msg;}
-function getSavedConfig(){
-  try{
-    const saved = JSON.parse(localStorage.getItem(FIREBASE_CONFIG_KEY)||'null');
-    return saved || DEFAULT_FIREBASE_CONFIG;
-  }catch(e){
-    return DEFAULT_FIREBASE_CONFIG;
-  }
-}
-function isUsableConfig(cfg){return cfg && cfg.apiKey && cfg.projectId && cfg.appId;}
-async function initFirebase(){
- const cfg=getSavedConfig();
- const input=document.getElementById('firebaseConfigInput'); if(input&&cfg)input.value=JSON.stringify(cfg,null,2);
- if(!isUsableConfig(cfg)){setSyncStatus('local only - Firebase config missing'); return;}
- try{
-   app=initializeApp(cfg); db=getFirestore(app); auth=getAuth(app); await signInAnonymously(auth); firebaseReady=true; setSyncStatus('connecting...');
-   try{await enableIndexedDbPersistence(db);}catch(e){}
-   unsubscribe=onSnapshot(collection(db,COLLECTION),(snap)=>{
-     remoteLoaded=true; const remote=[]; snap.forEach(d=>remote.push(d.data()));
-     remote.sort((a,b)=>(b.createdAtMs||b.id||0)-(a.createdAtMs||a.id||0));
-     records=remote.map(cleanRecord); suppressRemoteWrite=true; localSaveOnly(); suppressRemoteWrite=false; renderAll(); setSyncStatus('Firestore connected');
-   },err=>{console.error(err); setSyncStatus('Firestore error - check rules/config');});
-   if(records.length) await syncNow();
- }catch(e){console.error(e); setSyncStatus('Firebase config error');}
-}
-function cleanRecord(r){return {...r,id:r.id||Date.now(),createdAtMs:r.createdAtMs||r.id||Date.now(),actions:(r.actions||[]).map(a=>typeof a==='string'?{text:a,done:false}:a)}}
-function localSaveOnly(){localStorage.setItem(KEY,JSON.stringify(records));}
-async function save(){localSaveOnly(); renderAll(); if(firebaseReady&&!suppressRemoteWrite) await syncNow();}
-async function syncNow(){
- if(!firebaseReady||!db){setSyncStatus('local only'); return;}
- try{const batch=writeBatch(db); records.forEach(r=>{const safe=cleanRecord(r); batch.set(doc(db,COLLECTION,String(safe.id)), {...safe, updatedAt:serverTimestamp()});}); await batch.commit(); setSyncStatus('Firestore synced');}
- catch(e){console.error(e); setSyncStatus('sync failed - check Firestore rules');}
-}
-function saveFirebaseConfig(){
- const raw=document.getElementById('firebaseConfigInput').value.trim();
- try{const cfg=JSON.parse(raw); if(!isUsableConfig(cfg)) throw new Error('Missing apiKey/projectId/appId'); localStorage.setItem(FIREBASE_CONFIG_KEY,JSON.stringify(cfg)); alert('Firebase config saved. Firestore sync will connect now.'); location.reload();}
- catch(e){alert('Invalid Firebase config JSON. Paste the web app config object from Firebase Project settings.');}
-}
-function clearFirebaseConfig(){localStorage.removeItem(FIREBASE_CONFIG_KEY); alert('Custom Firebase config removed. App will use the built-in meetinghub-ce912 config.'); location.reload();}
-
-function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderAll();}
-function openNew(){go('newMeeting',document.querySelectorAll('.nav button')[1]);}
-function splitSentences(t){return (t||'').replace(/\s+/g,' ').split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean);}
-function keywords(t){const stop='the and for with that this from have has are was were will would should could about into during meeting discussion student students action follow up'.split(' ');let words=(t.toLowerCase().match(/[a-zA-Z]{4,}/g)||[]).filter(w=>!stop.includes(w));let freq={};words.forEach(w=>freq[w]=(freq[w]||0)+1);return Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0]);}
-function detectSentiment(t){let pos=['good','clear','agree','progress','resolved','positive','successful','improve','support','confirmed','appreciate','helpful'];let neg=['concern','issue','problem','late','missing','delay','unclear','angry','frustrated','risk','difficult','unable','conflict'];let lower=t.toLowerCase();let ps=pos.reduce((a,w)=>a+(lower.includes(w)?1:0),0), ns=neg.reduce((a,w)=>a+(lower.includes(w)?1:0),0); if(ps>ns+1)return 'Positive'; if(ns>ps+1)return 'Concerned'; return 'Neutral';}
-function extractActions(t){let lines=t.split(/\n|\./).map(x=>x.trim()).filter(Boolean);let actionWords=['to ','need','follow','send','email','prepare','submit','check','confirm','update','arrange','complete','remind','review','call','draft'];let found=lines.filter(l=>actionWords.some(w=>l.toLowerCase().includes(w))).slice(0,10);return found.length?found:['No clear action item detected. Add one manually if needed.'];}
-function generateSummary(){
- const title=document.getElementById('title').value||'Untitled record'; const cat=document.getElementById('category').value; const people=document.getElementById('people').value; const notes=document.getElementById('notes').value.trim();
- if(!notes){alert('Please paste or upload meeting notes first.');return;}
- const sents=splitSentences(notes); const keys=keywords(notes); const actions=extractActions(notes); const sentiment=detectSentiment(notes);
- const scored=sents.map(s=>({s,score:keys.reduce((a,k)=>a+(s.toLowerCase().includes(k)?1:0),0)+(s.length<180?0.5:0)})).sort((a,b)=>b.score-a.score).slice(0,5).map(x=>x.s);
- const summary=`${title}\n\nMain points:\n${scored.map((s,i)=>`${i+1}. ${s}`).join('\n')}\n\nKey action items:\n${actions.map((a,i)=>`${i+1}. ${a}`).join('\n')}\n\nOverall tone: ${sentiment}`;
- const analysis=`Category: ${cat}\nPeople: ${people||'Not stated'}\nKeywords: ${keys.join(', ')||'None detected'}\nSentiment: ${sentiment}\nNumber of extracted action items: ${actions.length}`;
- currentSummary={summary,analysis,actions,sentiment,keywords:keys};
- document.getElementById('summaryOut').textContent=summary; document.getElementById('analysisOut').textContent=analysis; makeEmailDraft(); go('aiSummary',document.querySelectorAll('.nav button')[2]);
-}
-async function saveRecord(){
- const notes=document.getElementById('notes').value.trim(); if(!notes){alert('Please add notes first.');return;} if(!currentSummary)generateSummary();
- const now=Date.now(); const rec={id:now,createdAtMs:now,title:document.getElementById('title').value||'Untitled record',category:document.getElementById('category').value,date:document.getElementById('date').value||new Date().toISOString().slice(0,10),people:document.getElementById('people').value,notes,summary:currentSummary.summary,analysis:currentSummary.analysis,actions:currentSummary.actions.map(a=>({text:a,done:false})),sentiment:currentSummary.sentiment,keywords:currentSummary.keywords};
- records.unshift(rec); await save(); alert(firebaseReady?'Record saved and synced to Firestore.':'Record saved locally. Add Firebase config to sync.'); go('records',document.querySelectorAll('.nav button')[3]);
-}
-function renderAll(){renderDashboard();renderRecords();renderTasks();makeEmailDraft();}
-function renderDashboard(){
- document.getElementById('statTotal').textContent=records.length; let open=records.flatMap(r=>r.actions||[]).filter(a=>!a.done&&!a.text.startsWith('No clear')).length;document.getElementById('statOpen').textContent=open;
- let sent=records.map(r=>r.sentiment); let avg=sent.filter(x=>x==='Concerned').length>sent.filter(x=>x==='Positive').length?'Concerned':sent.filter(x=>x==='Positive').length?'Positive':'Neutral';document.getElementById('statSent').textContent=records.length?avg:'Neutral';
- let cats={};records.forEach(r=>cats[r.category]=(cats[r.category]||0)+1);document.getElementById('categoryStats').innerHTML=Object.entries(cats).map(([c,n])=>`<div style="margin:10px 0"><b>${c}</b><span class="small"> — ${n}</span><div class="bar"><div style="width:${Math.round(n/Math.max(1,records.length)*100)}%"></div></div></div>`).join('')||'<div class="empty">No categories yet.</div>';
- document.getElementById('recentRecords').innerHTML=records.slice(0,5).map(recordHTML).join('')||'<div class="empty">No records yet.</div>';
-}
-function recordHTML(r){return `<div class="record" onclick="openRecord(${r.id})"><div class="recordTitle"><span>${escapeHTML(r.title)}</span><span class="small">${r.date}</span></div><div class="small">${r.category} · ${r.people||'No people listed'} · ${r.sentiment}</div><div class="chipline">${(r.keywords||[]).slice(0,4).map(k=>`<span class="pill">${k}</span>`).join('')}</div></div>`}
-function renderRecords(){let q=(document.getElementById('search')?.value||'').toLowerCase();let c=document.getElementById('filterCat')?.value||'All';let list=records.filter(r=>(c==='All'||r.category===c)&&JSON.stringify(r).toLowerCase().includes(q));document.getElementById('recordList').innerHTML=list.map(recordHTML).join('')||'<div class="empty">No matching records.</div>';}
-function renderTasks(){let html='';records.forEach(r=>(r.actions||[]).forEach((a,i)=>{if(a.text.startsWith('No clear'))return;html+=`<div class="task ${a.done?'done':''}"><input type="checkbox" ${a.done?'checked':''} onchange="toggleTask(${r.id},${i})"><span>${escapeHTML(a.text)}<div class="small">${escapeHTML(r.title)} · ${r.date}</div></span><button class="btn secondary" onclick="openRecord(${r.id})">Open</button></div>`}));document.getElementById('taskList').innerHTML=html||'<div class="empty">No action items yet.</div>';}
-async function toggleTask(id,i){let r=records.find(x=>x.id===id);r.actions[i].done=!r.actions[i].done;await save();}
-function openRecord(id){let r=records.find(x=>x.id===id);document.getElementById('modalTitle').textContent=r.title;document.getElementById('modalContent').innerHTML=`<div class="kv"><b>Date</b><span>${r.date}</span><b>Category</b><span>${r.category}</span><b>People</b><span>${escapeHTML(r.people||'Not stated')}</span><b>Sentiment</b><span>${r.sentiment}</span></div><h3>Summary</h3><div class="summaryBox">${escapeHTML(r.summary)}</div><h3>Original Notes</h3><div class="summaryBox">${escapeHTML(r.notes)}</div><div class="toolbar"><button class="btn" onclick="copyText(${r.id})">Copy Summary</button><button class="btn danger" onclick="deleteRecord(${r.id})">Delete</button></div>`;document.getElementById('modal').classList.add('show');}
-function closeModal(){document.getElementById('modal').classList.remove('show');}
-async function deleteRecord(id){if(confirm('Delete this record?')){records=records.filter(r=>r.id!==id);localSaveOnly(); if(firebaseReady&&db) await deleteDoc(doc(db,COLLECTION,String(id))); renderAll(); closeModal();}}
-function makeEmailDraft(){let r=records[0];let txt=currentSummary?currentSummary.summary:(r?r.summary:'Generate or save a record first.');document.getElementById('emailDraft').value=`Dear all,\n\nPlease see the concise meeting summary below.\n\n${txt}\n\nThank you.`;}
-function copyEmail(){navigator.clipboard.writeText(document.getElementById('emailDraft').value);alert('Email draft copied.');}
-function copyText(id){let r=records.find(x=>x.id===id);navigator.clipboard.writeText(r.summary);alert('Summary copied.');}
-function downloadJSON(){download('meeting-records.json',JSON.stringify(records,null,2),'application/json');}
-function downloadCSV(){let rows=[['Date','Title','Category','People','Sentiment','Summary','Notes']].concat(records.map(r=>[r.date,r.title,r.category,r.people,r.sentiment,r.summary,r.notes]));let csv=rows.map(row=>row.map(x=>'"'+String(x||'').replaceAll('"','""')+'"').join(',')).join('\n');download('meeting-records.csv',csv,'text/csv');}
-function download(name,content,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();}
-async function clearAll(){if(confirm('Clear all saved records in this browser and Firestore collection?')){const old=[...records];records=[];localSaveOnly(); if(firebaseReady&&db){await Promise.all(old.map(r=>deleteDoc(doc(db,COLLECTION,String(r.id))).catch(()=>{})));} renderAll();}}
-function clearForm(){['title','people','notes'].forEach(id=>document.getElementById(id).value='');currentSummary=null;document.getElementById('summaryOut').textContent='No summary yet.';document.getElementById('analysisOut').textContent='Generate a summary from the New Meeting page.';}
-function escapeHTML(s){return String(s||'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));}
-document.getElementById('fileInput').addEventListener('change',e=>{let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>document.getElementById('notes').value=reader.result;reader.readAsText(f);});
-
-Object.assign(window,{go,openNew,generateSummary,saveRecord,renderRecords,toggleTask,openRecord,closeModal,deleteRecord,copyEmail,copyText,downloadJSON,downloadCSV,clearAll,clearForm,saveFirebaseConfig,clearFirebaseConfig,syncNow});
-renderAll(); initFirebase();
-</script>
-</body>
-</html>
+const firebaseConfig={apiKey:'AIzaSyDJiadH58mq7mrkk7wP6nEwPTg_uW2kJG8',authDomain:'meetinghub-ce912.firebaseapp.com',projectId:'meetinghub-ce912',storageBucket:'meetinghub-ce912.firebasestorage.app',messagingSenderId:'548498455637',appId:'1:548498455637:web:58d6ff7cdbc542010b28dc'};
+const KEY='meetinghub_pro_v2_records'; const COLLECTION='hubRecords'; let records=JSON.parse(localStorage.getItem(KEY)||'[]'); let db=null,auth=null,firebaseReady=false,current=null,audioName=''; document.getElementById('date').valueAsDate=new Date();
+function syncStatus(t){document.getElementById('sync').textContent='Sync: '+t} async function init(){try{const app=initializeApp(firebaseConfig);db=getFirestore(app);auth=getAuth(app);await signInAnonymously(auth);firebaseReady=true;syncStatus('Firestore connected');onSnapshot(collection(db,COLLECTION),snap=>{records=[];snap.forEach(d=>records.push(d.data()));records.sort((a,b)=>(b.createdAtMs||0)-(a.createdAtMs||0));localStorage.setItem(KEY,JSON.stringify(records));renderAll();},e=>{console.error(e);syncStatus('Firestore rules error')});if(records.length)await syncNow();}catch(e){console.error(e);syncStatus('Firebase config error');renderAll()}}
+function saveLocal(){localStorage.setItem(KEY,JSON.stringify(records))} async function syncNow(){if(!firebaseReady)return;const batch=writeBatch(db);records.forEach(r=>batch.set(doc(db,COLLECTION,String(r.id)),{...r,updatedAt:serverTimestamp()}));await batch.commit()}
+async function save(){saveLocal();renderAll();if(firebaseReady)await syncNow()}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderAll()} function openNew(){go('newPage',document.querySelectorAll('.nav button')[1])}
+function lines(t){return t.split(/\n|\./).map(x=>x.trim()).filter(Boolean)} function sentences(t){return (t||'').replace(/\s+/g,' ').split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean)}
+function keywords(t){const stop='the and for with that this from have has are was were will would should could about into during meeting discussion student students action follow need'.split(' ');let freq={};(t.toLowerCase().match(/[a-zA-Z]{4,}/g)||[]).filter(w=>!stop.includes(w)).forEach(w=>freq[w]=(freq[w]||0)+1);return Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0])}
+function sentimentOf(t){const pos=['good','clear','agree','progress','resolved','positive','successful','improve','support','confirmed','appreciate'];const neg=['concern','issue','problem','late','missing','delay','unclear','angry','frustrated','risk','difficult','unable','conflict'];let l=t.toLowerCase(),p=pos.filter(w=>l.includes(w)).length,n=neg.filter(w=>l.includes(w)).length;return n>p+1?'Concerned':p>n+1?'Positive':'Neutral'}
+function extractActions(t){let words=['need','follow','send','email','prepare','submit','check','confirm','update','arrange','complete','remind','review','call','draft','to '];let a=lines(t).filter(l=>words.some(w=>l.toLowerCase().includes(w))).slice(0,12);return a.length?a:['No clear action item detected.']}
+function generateSummary(){const notes=document.getElementById('notes').value.trim();if(!notes){alert('Please add notes or transcript first.');return}const title=document.getElementById('title').value||'Untitled record';let keys=keywords(notes),sents=sentences(notes);let top=sents.map(s=>({s,score:keys.reduce((a,k)=>a+(s.toLowerCase().includes(k)?1:0),0)})).sort((a,b)=>b.score-a.score).slice(0,5).map(x=>x.s);let actions=extractActions(notes),sent=sentimentOf(notes);current={id:Date.now(),createdAtMs:Date.now(),title,type:document.getElementById('type').value,category:document.getElementById('category').value,date:document.getElementById('date').value,people:document.getElementById('people').value,student:document.getElementById('student').value,notes,audioName,keywords:keys,sentiment:sent};document.getElementById('summaryText').value=`${title}\n\n${top.join('\n')}`;document.getElementById('pointsText').value=top.map(x=>'• '+x).join('\n');document.getElementById('decisionsText').value=lines(notes).filter(x=>/decid|confirm|agree|approved|will/.test(x.toLowerCase())).slice(0,6).map(x=>'• '+x).join('\n')||'• No explicit decision detected.';document.getElementById('actionsText').value=actions.map(x=>'☐ '+x).join('\n');document.getElementById('risksText').value=lines(notes).filter(x=>/concern|risk|issue|problem|late|missing|unclear|delay/.test(x.toLowerCase())).slice(0,6).map(x=>'• '+x).join('\n')||'• No major concern detected.';document.getElementById('followText').value=actions.filter(x=>!x.startsWith('No clear')).slice(0,5).map(x=>'• Follow up: '+x).join('\n')||'• No follow-up detected.';document.getElementById('sentiment').value=sent;go('summaryPage',document.querySelectorAll('.nav button')[2])}
+async function saveRecordFromSummary(){if(!current){alert('Generate a summary first.');return}const now=Date.now();let actionLines=document.getElementById('actionsText').value.split('\n').map(x=>x.replace(/^☐\s*/,'').trim()).filter(Boolean);let rec={...current,id:now,createdAtMs:now,summary:document.getElementById('summaryText').value,points:document.getElementById('pointsText').value,decisions:document.getElementById('decisionsText').value,actions:actionLines.map(t=>({text:t,done:false,assignedTo:'',dueDate:'',priority:'Normal'})),risks:document.getElementById('risksText').value,followUp:document.getElementById('followText').value,sentiment:document.getElementById('sentiment').value};records.unshift(rec);await save();alert(firebaseReady?'Record saved and synced to Firestore.':'Record saved locally.');go('recordsPage',document.querySelectorAll('.nav button')[3])}
+function renderAll(){renderDash();renderRecords();renderStudents();renderTasks();makeEmailDraft()} function recHTML(r){return `<div class="record" onclick="openRecord(${r.id})"><div class="recTop"><span>${esc(r.title)}</span><span class="muted">${r.date||''}</span></div><div class="muted">${esc(r.category)} · ${esc(r.student||r.people||'No person listed')} · ${r.sentiment}</div>${(r.keywords||[]).slice(0,5).map(k=>`<span class="pill">${esc(k)}</span>`).join('')}</div>`}
+function renderDash(){document.getElementById('statRecords').textContent=records.length;document.getElementById('statConsults').textContent=records.filter(r=>r.type==='Consultation'||/Consultation/.test(r.category)).length;document.getElementById('statTasks').textContent=records.flatMap(r=>r.actions||[]).filter(a=>!a.done&&!a.text.startsWith('No clear')).length;let c=records.reduce((o,r)=>(o[r.sentiment]=(o[r.sentiment]||0)+1,o),{});document.getElementById('statSent').textContent=records.length?Object.entries(c).sort((a,b)=>b[1]-a[1])[0][0]:'Neutral';let cats={};records.forEach(r=>cats[r.category]=(cats[r.category]||0)+1);document.getElementById('catStats').innerHTML=Object.entries(cats).map(([k,n])=>`<b>${esc(k)}</b> <span class="muted">— ${n}</span><div class="bar"><div style="width:${n/Math.max(1,records.length)*100}%"></div></div><br>`).join('')||'<div class="empty">No records yet.</div>';document.getElementById('recent').innerHTML=records.slice(0,5).map(recHTML).join('')||'<div class="empty">No records yet.</div>'}
+function renderRecords(){let q=(document.getElementById('search')?.value||'').toLowerCase(),f=document.getElementById('filter')?.value||'All';let list=records.filter(r=>(f==='All'||r.category===f)&&JSON.stringify(r).toLowerCase().includes(q));document.getElementById('recordList').innerHTML=list.map(recHTML).join('')||'<div class="empty">No matching records.</div>'}
+function renderStudents(){let q=(document.getElementById('studentSearch')?.value||'').toLowerCase();let list=records.filter(r=>r.student&&r.student.toLowerCase().includes(q));document.getElementById('studentList').innerHTML=list.map(recHTML).join('')||'<div class="empty">No student consultation records yet.</div>'}
+function renderTasks(){let html='';records.forEach(r=>(r.actions||[]).forEach((a,i)=>{if(a.text.startsWith('No clear'))return;html+=`<div class="task ${a.done?'done':''}"><input type="checkbox" ${a.done?'checked':''} onchange="toggleTask(${r.id},${i})"><span>${esc(a.text)}<div class="muted">${esc(r.title)} · ${r.date||''}</div></span><button class="btn gray" onclick="openRecord(${r.id})">Open</button></div>`}));document.getElementById('taskList').innerHTML=html||'<div class="empty">No tasks yet.</div>'}
+async function toggleTask(id,i){let r=records.find(x=>x.id===id);r.actions[i].done=!r.actions[i].done;await save()} function openRecord(id){let r=records.find(x=>x.id===id);document.getElementById('modalTitle').textContent=r.title;document.getElementById('modalContent').innerHTML=`<div class="kv"><b>Date</b><span>${esc(r.date)}</span><b>Type</b><span>${esc(r.type)}</span><b>Category</b><span>${esc(r.category)}</span><b>People</b><span>${esc(r.people)}</span><b>Student/Class/PW</b><span>${esc(r.student)}</span><b>Sentiment</b><span>${esc(r.sentiment)}</span><b>Audio</b><span>${esc(r.audioName||'None')}</span></div><h3>Summary</h3><div class="box">${esc(r.summary)}</div><h3>Key Discussion Points</h3><div class="box">${esc(r.points)}</div><h3>Decisions</h3><div class="box">${esc(r.decisions)}</div><h3>Action Items</h3><div class="box">${(r.actions||[]).map(a=>'• '+esc(a.text)).join('<br>')}</div><h3>Risks / Follow-up</h3><div class="box">${esc(r.risks)}\n\n${esc(r.followUp)}</div><h3>Original Notes</h3><div class="box">${esc(r.notes)}</div><div class="toolbar"><button class="btn" onclick="copyRecord(${r.id})">Copy Summary</button><button class="btn red" onclick="deleteRecord(${r.id})">Delete</button></div>`;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')} async function deleteRecord(id){if(confirm('Delete this record?')){records=records.filter(r=>r.id!==id);saveLocal();if(firebaseReady)await deleteDoc(doc(db,COLLECTION,String(id)));renderAll();closeModal()}}
+function makeEmailDraft(){let r=records[0];let txt=r?`Subject: ${r.title}\n\nDear all,\n\nPlease see the summary below.\n\nSummary:\n${r.summary}\n\nKey Decisions:\n${r.decisions}\n\nAction Items:\n${(r.actions||[]).map(a=>'- '+a.text).join('\n')}\n\nFollow-up:\n${r.followUp}\n\nThank you.`:'Generate or save a record first.';document.getElementById('emailDraft').value=txt} function copyEmail(){navigator.clipboard.writeText(document.getElementById('emailDraft').value);alert('Email copied.')} function copyRecord(id){let r=records.find(x=>x.id===id);navigator.clipboard.writeText(`${r.summary}\n\n${r.decisions}\n\n${(r.actions||[]).map(a=>'- '+a.text).join('\n')}`);alert('Copied.')}
+function download(name,content,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click()} function downloadJSON(){download('meetinghub-pro-records.json',JSON.stringify(records,null,2),'application/json')} function downloadCSV(){let rows=[['Date','Title','Type','Category','People','Student','Sentiment','Summary']].concat(records.map(r=>[r.date,r.title,r.type,r.category,r.people,r.student,r.sentiment,r.summary]));download('meetinghub-pro-records.csv',rows.map(row=>row.map(x=>'"'+String(x||'').replaceAll('"','""')+'"').join(',')).join('\n'),'text/csv')} async function clearAll(){if(confirm('Clear all records?')){let old=[...records];records=[];saveLocal();if(firebaseReady)await Promise.all(old.map(r=>deleteDoc(doc(db,COLLECTION,String(r.id))).catch(()=>{})));renderAll()}}
+function clearForm(){['title','people','student','notes'].forEach(id=>document.getElementById(id).value='');current=null;audioName='';document.getElementById('audioMsg').textContent='Audio file name will be saved. Paste transcript/notes below for now.'}
+function esc(s){return String(s||'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
+document.getElementById('fileInput').addEventListener('change',e=>{let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>document.getElementById('notes').value=reader.result;reader.readAsText(f)});document.getElementById('audioInput').addEventListener('change',e=>{let f=e.target.files[0];audioName=f?f.name:'';document.getElementById('audioMsg').textContent=f?`Audio selected: ${f.name}. Paste transcript below until transcription API is connected.`:'Audio file name will be saved.'});
+Object.assign(window,{go,openNew,generateSummary,saveRecordFromSummary,renderRecords,renderStudents,toggleTask,openRecord,closeModal,deleteRecord,copyRecord,copyEmail,makeEmailDraft,downloadJSON,downloadCSV,clearAll,clearForm});renderAll();init();
+</script></body></html>
